@@ -1,0 +1,1 @@
+import vertex_preamble from './shaders/vertex_preamble.js';

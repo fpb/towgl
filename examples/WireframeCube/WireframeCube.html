@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+
+    </head>
+    <body>
+        <script type="module">
+            import { PerspectiveCamera, BoxGeometry, BasicMaterial, Mesh, Scene, Renderer, Vector3, Vector4 } from '../../src/index.js' ;
+
+            var renderer, scene, camera;
+
+            var cube;
+
+            window.onload = function() {
+                alert("page loaded!");
+
+                init();
+            }
+
+            function init() {
+                camera = new PerspectiveCamera();
+                camera.position = new Vector3(0,0,1.5);
+
+                scene = new Scene();
+
+                cube = new Mesh(new BoxGeometry(1, 1, 1), new BasicMaterial( {color: new Vector4(0,1,1,1)}));
+                scene.add(cube);
+
+                renderer = new Renderer({antialias: true});
+                renderer.setSize(800, 400);
+
+                renderer.background = new Vector4(0,0,0,1);
+
+                document.body.append(renderer.domElement);
+                window.requestAnimationFrame(animate);
+            }
+
+            function animate() {
+                window.requestAnimationFrame(animate);
+                //cube.rotateX(1);
+                cube.rotX += 1;
+                //cube.rotateY(0.4);
+                cube.rotY += 0.4;
+                renderer.render(scene, camera);
+            }
+        </script>
+        <p>A simple rotating wireframe cube</p>
+    </body>
+</html>
