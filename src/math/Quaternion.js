@@ -24,10 +24,10 @@ export class quaternion {
         let a2 = angle * Math.PI / 360;
         const s = Math.sin(a2);
 
-        this.#v.x = s * axis.x / len;
-        this.#v.y = s * axis.y / len;
-        this.#v.z = s * axis.z / len;
-        this.#v.w = Math.cos(a2);
+        this.#q.x = s * axis.x / len;
+        this.#q.y = s * axis.y / len;
+        this.#q.z = s * axis.z / len;
+        this.#q.w = Math.cos(a2);
     }
 
     /**
@@ -54,7 +54,7 @@ export class quaternion {
      */
     static scale(q, s)
     {
-        return new quaternion(this.#v.x * s, this.#v.y * s, this.#v.z * s, this.#v.w * s);
+        return new quaternion(q.#q.x * s, q.#q.y * s, q.#q.z * s, q.#q.w * s);
     }
 
     /**
@@ -68,41 +68,41 @@ export class quaternion {
     /**
      * Getters
      */
-    get x () { return this.#v.x; }
-    get y () { return this.#v.y; }
-    get z () { return this.#v.z; }
-    get w () { return this.#v.w; }
+    get x () { return this.#q.x; }
+    get y () { return this.#q.y; }
+    get z () { return this.#q.z; }
+    get w () { return this.#q.w; }
 
     /**
      * Setters
      */
-    set x (x) { this.#v.x = x; }
-    set y (y) { this.#v.y = y; }
-    set z (z) { this.#v.z = z; }
-    set w (w) { this.#v.w = w; }
+    set x (x) { this.#q.x = x; }
+    set y (y) { this.#q.y = y; }
+    set z (z) { this.#q.z = z; }
+    set w (w) { this.#q.w = w; }
 
     /**
      * Returns the conjugate of a quaternion
      */
     get conjugate()
     {
-        return new quaternion(-this.#v.x, -this.#v.y, -this.#v.z, this.#v.w);
+        return new quaternion(-this.#q.x, -this.#q.y, -this.#q.z, this.#q.w);
     }
     
     /*
     get matrix3 ()
     {
-        const aa = this.#v.w * this.#v.w;
-        const bb = this.#v.x * this.#v.x;
-        const cc = this.#v.y * this.#v.y;
-        const dd = this.#v.z * this.#v.z;
+        const aa = this.#q.w * this.#q.w;
+        const bb = this.#q.x * this.#q.x;
+        const cc = this.#q.y * this.#q.y;
+        const dd = this.#q.z * this.#q.z;
     
-        const ab2 = 2 * this.#v.w * this.#v.x;
-        const bc2 = 2 * this.#v.x * this.#v.y;
-        const ad2 = 2 * this.#v.w * this.#v.z;
-        const bd2 = 2 * this.#v.x * this.#v.z;
-        const ac2 = 2 * this.#v.w * this.#v.y;
-        const cd2 = 2 * this.#v.y * this.#v.z;
+        const ab2 = 2 * this.#q.w * this.#q.x;
+        const bc2 = 2 * this.#q.x * this.#q.y;
+        const ad2 = 2 * this.#q.w * this.#q.z;
+        const bd2 = 2 * this.#q.x * this.#q.z;
+        const ac2 = 2 * this.#q.w * this.#q.y;
+        const cd2 = 2 * this.#q.y * this.#q.z;
 
         return new mat3(new vec3(aa+bb-cc-dd, bc2+ad2,     bd2-ac2), 
                         new vec3(bc2-ad2,     aa-bb+cc-dd, cd2+ab2), 
@@ -112,17 +112,17 @@ export class quaternion {
 
     get matrix4 ()
     {
-        const aa = this.#v.w * this.#v.w;
-        const bb = this.#v.x * this.#v.x;
-        const cc = this.#v.y * this.#v.y;
-        const dd = this.#v.z * this.#v.z;
+        const aa = this.#q.w * this.#q.w;
+        const bb = this.#q.x * this.#q.x;
+        const cc = this.#q.y * this.#q.y;
+        const dd = this.#q.z * this.#q.z;
     
-        const ab2 = 2 * this.#v.w * this.#v.x;
-        const bc2 = 2 * this.#v.x * this.#v.y;
-        const ad2 = 2 * this.#v.w * this.#v.z;
-        const bd2 = 2 * this.#v.x * this.#v.z;
-        const ac2 = 2 * this.#v.w * this.#v.y;
-        const cd2 = 2 * this.#v.y * this.#v.z;
+        const ab2 = 2 * this.#q.w * this.#q.x;
+        const bc2 = 2 * this.#q.x * this.#q.y;
+        const ad2 = 2 * this.#q.w * this.#q.z;
+        const bd2 = 2 * this.#q.x * this.#q.z;
+        const ac2 = 2 * this.#q.w * this.#q.y;
+        const cd2 = 2 * this.#q.y * this.#q.z;
 
         return new mat4(new vec4(aa+bb-cc-dd, bc2+ad2,     bd2-ac2,     0), 
                         new vec4(bc2-ad2,     aa-bb+cc-dd, cd2+ab2,     0), 
