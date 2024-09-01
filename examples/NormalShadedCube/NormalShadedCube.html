@@ -8,17 +8,11 @@
 
 <body>
     <script type="module">
-        import { PerspectiveCamera, BoxGeometry, BasicMaterial, Mesh, Scene, Renderer, Vector3, Vector4 } from '../../src/index.js';
+        import { PerspectiveCamera, BoxGeometry, NormalMaterial, Mesh, Scene, Renderer, Vector3, Vector4 } from '../../src/index.js';
 
-<<<<<<< Updated upstream
-            window.onload = function() {
-                init();
-            }
-=======
         var renderer, scene, camera;
 
         var cube;
->>>>>>> Stashed changes
 
         window.onload = function () {
             init();
@@ -30,7 +24,7 @@
 
             scene = new Scene();
 
-            cube = new Mesh(new BoxGeometry(1, 1, 1), new BasicMaterial({ color: new Vector4(0, 1, 1, 1) }));
+            cube = new Mesh(new BoxGeometry(1, 1, 1), new NormalMaterial());
             scene.add(cube);
 
             renderer = new Renderer({ antialias: true });

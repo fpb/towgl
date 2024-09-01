@@ -1,13 +1,12 @@
-import { BufferedGeometry } from '../BufferedGeometry.js' ;
+import { BufferedGeometry } from '../BufferedGeometry.js';
 import { Float32BufferedAttribute } from '../BufferedAttribute.js';
 import { Vector2 } from '../math/Vector2.js';
-import { Vector3 } from '../math/Vector3.js' ;
+import { Vector3 } from '../math/Vector3.js';
 
 /**
  * Class representing a box centered at the origin
  */
-export class BoxGeometry extends BufferedGeometry 
-{
+export class BoxGeometry extends BufferedGeometry {
     /**
      * Creates an axis aligned Box, centred at the origin, given its size and number of segments along each direction
      * 
@@ -18,8 +17,7 @@ export class BoxGeometry extends BufferedGeometry
      * @param {*} ysegments the number of segments along the y axis
      * @param {*} zsegments the number of segments along the z axis
      */
-    constructor(sizex = 1, sizey = 1, sizez = 1, xsegments = 1, ysegments = 1, zsegments = 1) 
-    {
+    constructor(sizex = 1, sizey = 1, sizez = 1, xsegments = 1, ysegments = 1, zsegments = 1) {
         super();
 
         const indices = [];
@@ -59,8 +57,7 @@ export class BoxGeometry extends BufferedGeometry
          * @param {*} vsegments 
          * @param {*} materialIndex 
          */
-        function addFace(u, v, w, udir, vdir, width, height, depth, usegments, vsegments, materialIndex) 
-        {
+        function addFace(u, v, w, udir, vdir, width, height, depth, usegments, vsegments, materialIndex) {
             // Remembers the current vertex count since it is the base for this group 
             let groupBase = vertexCount;
 
@@ -75,12 +72,12 @@ export class BoxGeometry extends BufferedGeometry
             let halfD = depth / 2;
 
             // Create the faces for this face using the number of segments given
-            for(let i=0, uvalue=0; i <=usegments; i++, uvalue = i/usegments) {
-                for(let j=0, vvalue=0; j<=vsegments; j++, vvalue = j/vsegments) {
-                    
+            for (let i = 0, uvalue = 0; i <= usegments; i++, uvalue = i / usegments) {
+                for (let j = 0, vvalue = 0; j <= vsegments; j++, vvalue = j / vsegments) {
+
                     // Compute the vertex coordinates
-                    p[u] = -halfW*udir + i * udir * width / usegments;
-                    p[v] = -halfH*vdir + j * vdir * height / vsegments;
+                    p[u] = -halfW * udir + i * udir * width / usegments;
+                    p[v] = -halfH * vdir + j * vdir * height / vsegments;
                     p[w] = halfD;
 
                     // Add the vertex to the list
@@ -98,10 +95,10 @@ export class BoxGeometry extends BufferedGeometry
                     // Add the uv-coordinates to the list
                     uvs.push(uv.s, uv.t);
 
-                    let a = vertexCount, b = a + (vsegments+1), c = b + 1, d = a + 1;
+                    let a = vertexCount, b = a + (vsegments + 1), c = b + 1, d = a + 1;
 
                     // Add the two triangular faces for this patch
-                    if(i<usegments && j<vsegments) {
+                    if (i < usegments && j < vsegments) {
                         indices.push(a, c, d);
                         indices.push(a, b, c);
                     }

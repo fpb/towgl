@@ -16,13 +16,16 @@ export class Renderer {
     constructor(options) {
         this.#background = new Vector4(1.0, 0, 0, 1);
         this.#domElement = document.createElement('canvas');
-        this.#gl = this.#domElement.getContext('webgl', options || {});
+        this.#gl = this.#domElement.getContext('webgl2', options || {});
 
         this.#materialPrograms = {};
 
         this.#clearColor = true;
         this.#clearDepth = true;
         this.#clearStencil = false;
+
+        // Set defaults
+        this.#gl.enable(this.#gl.DEPTH_TEST);
     }
 
     get background() { return this.#background; }
@@ -83,8 +86,8 @@ export class Renderer {
      * 
      * @param {Material} mat - a material for which we want to get the program
      *
-     */ 
-     #getProgramForMaterial(mat) {
+     */
+    #getProgramForMaterial(mat) {
         const name = mat.name;
 
         let prog = this.#materialPrograms[name];
@@ -106,15 +109,14 @@ export class Renderer {
         // Update the transformations of each object in preparation for rendering
         this.#updateScene(scene, camera);
 
-        // Recoveer the context
+        // Recover the context
         let gl = this.context;
 
         // Clear the background
         gl.clearColor(this.#background.r, this.#background.g, this.#background.b, this.#background.a);
 
-        gl.clear(this.clearColor ? gl.COLOR_BUFFER_BIT : 0 |
-            this.clearDepth ? gl.DEPTH_BUFFER_BIT : 0 |
-                this.clearStencil ? gl.STENCIL_BUFFER_BIT : 0);
+        let mask = 0;
+        gl.clear(this.clearColor ? gl.COLOR_BUFFER_BIT : 0 | this.clearDepth ? gl.DEPTH_BUFFER_BIT : 0 | this.clearStencil ? gl.STENCIL_BUFFER_BIT : 0);
 
         // Get the camera projection matrix
         const projection = camera.matrix;
