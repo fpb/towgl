@@ -1,4 +1,4 @@
-import { Object3D } from '../src/Object3D.js' ;
+import { Object3D } from '../src/Object3D.js';
 import { Vector3 } from '../src/math/Vector3.js';
 import { Matrix4 } from '../src/math/Matrix4.js';
 
@@ -20,7 +20,7 @@ test('Creating an empty object 3d should have an identity transform', () => {
 test('Single translation of a 3d object should work', () => {
     let o = new Object3D();
     o.position = new Vector3(10, 20, 30);
-    expect(o.transform.m).toEqual(Matrix4.translation(10,20,30).m);
+    expect(o.transform.m).toEqual(Matrix4.translation(10, 20, 30).m);
 });
 
 test('Single rotation around X of a 3d object should work', () => {

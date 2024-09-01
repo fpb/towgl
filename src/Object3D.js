@@ -46,8 +46,14 @@ export class Object3D {
      * Adds a child object
      */
     add(c) {
-        c.#unparent();
+        /* removes the object from its current parent if it has one */
+        if (c.#parent)
+            c.#parent.remove(this);
+
+        /* Adds the object to the list of children */
         this.#children.push(c);
+
+        /* Finally, set the child's parent object to this object */
         c.#parent = this;
     }
 
@@ -55,33 +61,30 @@ export class Object3D {
      * Removes a child object
      */
     remove(c) {
+        /* Search for the child in the list of children */
         const index = this.#children.indexOf(c);
 
+        /* If c is a child object... */
         if (index != -1)
+
+            /* Remove it from the list of children */
             this.#children.splice(index, 1);
 
+        /* Unparent the removed child */
         c.#parent = null;
     }
-
-    /**
-     * Unparents the node
-     */
-    #unparent() {
-        if (this.#parent)
-            this.#parent.removeChild(this);
-    }
-
 
     /**
      * 
      * @param {Matrix4} parentLocalToWorld 
      */
-    update(parentLocalToWorld)
-    {
+    update(parentLocalToWorld) {
+        /* post multiply parent's localToWorld transform with object's local 
+           transform
+        */
         this.#localToWorld = Matrix4.mult(parentLocalToWorld, this.transform);
 
-        for(const child of this.#children)
-        {
+        for (const child of this.#children) {
             child.update(this.#localToWorld);
         }
     }
@@ -190,10 +193,10 @@ export class Object3D {
      * Returns the object's local to world transformation (modelling transformation). The returned value can be used to transform
      * points and vectors from local, modelling, coordinates to world coordinates.
      */
-    get localToWorld () { return this.#localToWorld; }
+    get localToWorld() { return this.#localToWorld; }
 
     /**
      * Returns false since Object3D objects do not have any mesh. They simply hold transformations and child nodes.
      */
-    get hasMesh () { return false; }
+    get hasMesh() { return false; }
 }
