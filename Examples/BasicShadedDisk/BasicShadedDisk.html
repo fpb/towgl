@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <script type="module">
+        import { PerspectiveCamera, DiskGeometry, BasicMaterial, Mesh, Scene, Renderer, Vector3, Vector4 } from '../../src/index.js';
+
+        var renderer, scene, camera;
+
+        var disk;
+
+        window.onload = function () {
+            init();
+        }
+
+        function init() {
+            camera = new PerspectiveCamera();
+            camera.position = new Vector3(0, 0, 1.5);
+
+            scene = new Scene();
+
+            disk = new Mesh(new DiskGeometry(0.5, 1.0, 32, 6), new BasicMaterial({ color: new Vector4(0, 1, 1, 1) }));
+            scene.add(disk);
+
+            renderer = new Renderer({ antialias: true });
+            renderer.setSize(800, 400);
+
+            renderer.background = new Vector4(0, 0, 0, 1);
+
+            document.body.append(renderer.domElement);
+            window.requestAnimationFrame(animate);
+        }
+
+        function animate() {
+            window.requestAnimationFrame(animate);
+            disk.rotX += 1;
+            disk.rotY += 0.4;
+            renderer.render(scene, camera);
+        }
+    </script>
+    <p>A simple rotating wireframe Disk</p>
+</body>
+
+</html>

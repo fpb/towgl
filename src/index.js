@@ -6,6 +6,7 @@ export * from './DefaultCamera.js';
 export { OrthographicCamera } from './OrthographicCamera.js';
 export { PerspectiveCamera } from './PerspectiveCamera.js';
 export { BoxGeometry } from './Geometries/BoxGeometry.js';
+export { DiskGeometry } from './Geometries/DiskGeometry.js';
 export { BasicMaterial } from './Materials/BasicMaterial.js';
 export { NormalMaterial } from './Materials/NormalMaterial.js';
 export { Mesh } from './Mesh.js';
