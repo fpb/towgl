@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <script type="module">
+        import { PerspectiveCamera, BoxGeometry, DiskGeometry, SphereGeometry, BasicMaterial, Mesh, Scene, Renderer, Vector3, Vector4 } from '../../src/index.js';
+
+        var renderer, scene, camera;
+
+        var cube, disk, sphere;
+
+        window.onload = function () {
+            init();
+        }
+
+        function init() {
+            camera = new PerspectiveCamera();
+            camera.position = new Vector3(0, 0, 2.5);
+
+            scene = new Scene();
+
+            const mat = new BasicMaterial({ color: new Vector4(0, 1, 1, 1) });
+
+            cube = new Mesh(new BoxGeometry(1, 1, 1), mat);
+            cube.position = new Vector3(-1, 1, 0);
+            scene.add(cube);
+
+            disk = new Mesh(new DiskGeometry(), mat);
+            disk.position = new Vector3(1, 1, 0);
+            scene.add(disk);
+
+            sphere = new Mesh(new SphereGeometry(), mat);
+            sphere.position = new Vector3(-1, -1, 0);
+            scene.add(sphere);
+
+            renderer = new Renderer({ antialias: true });
+            renderer.setSize(800, 400);
+
+            renderer.background = new Vector4(0, 0, 0, 1);
+
+            document.body.append(renderer.domElement);
+            window.requestAnimationFrame(animate);
+        }
+
+        function animate() {
+            window.requestAnimationFrame(animate);
+
+            cube.rotX += 1;
+            cube.rotY += 0.4;
+
+            disk.rotX = + 0.7;
+            disk.rotY += 0.8;
+
+            sphere.rotX += 1.2;
+            sphere.rotY += 0.8;
+
+            renderer.render(scene, camera);
+        }
+    </script>
+    <p>Basic Shaded Geometries</p>
+</body>
+
+</html>
