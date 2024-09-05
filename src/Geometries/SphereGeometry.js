@@ -20,6 +20,10 @@ export class SphereGeometry extends BufferedGeometry {
         const dPhi = Math.PI / (2 * hSegments);
 
 
+        // Mid vertices (except top and bottom vertices) will be layed in matrix
+        // format, from bottom to top first and around next
+        // (2 hSegments - 1) lines x (vSegments + 1) columns
+
         // Add mid vertices
         let theta = startAngle;
         for (let m = 0; m <= vSegments; m++) {
@@ -32,7 +36,7 @@ export class SphereGeometry extends BufferedGeometry {
                 // vertex data
                 vertices.push(radius * x, radius * y, radius * z);
                 normals.push(x, y, z);
-                uvs.push(0, 0); // TODO: fix uv coordinates
+                uvs.push(m / vSegments, p / (2 * hSegments + 1));
 
                 // move to next column of vertices
                 phi += dPhi;
@@ -42,18 +46,25 @@ export class SphereGeometry extends BufferedGeometry {
         }
 
         // Add top of sphere
+        let top = vertices.length / 3;
         vertices.push(0, 1, 0);
         normals.push(0, 1, 0);
         uvs.push(0.5, 1);
 
+        console.log("top=" + top);
+
+        let bottom = vertices.length / 3;
         // Add bottom of sphere
         vertices.push(0, -1, 0);
         normals.push(0, -1, 0);
         uvs.push(0.5, 0);
 
-        console.log(vertices.length);
+        console.log("bottom=" + bottom);
+
+        console.log(vertices.length / 3);
 
         // Add the indices
+        // Add mid section
         for (let m = 0; m < vSegments; m++) {
             for (let p = 0; p < 2 * hSegments - 2; p++) {
 
@@ -65,18 +76,21 @@ export class SphereGeometry extends BufferedGeometry {
 
                 indices.push(a, b, c);
                 indices.push(a, c, d);
-
-                //console.log(a, b, c);
-                //console.log(a, c, d);
             }
         }
 
-
-        // Add mid section
-
         // Add top cap
-
+        for (let m = 0; m < vSegments; m++) {
+            const a = (m + 1) * (2 * hSegments - 1) - 1;
+            const b = (m + 2) * (2 * hSegments - 1) - 1;
+            indices.push(top, b, a);
+        }
         // Add bottom cap
+        for (let m = 0; m < vSegments; m++) {
+            const a = m * (2 * hSegments - 1);
+            const b = (m + 1) * (2 * hSegments - 1);
+            indices.push(bottom, a, b);
+        }
 
         this.setIndices(indices);
         this.setAttribute('position', new Float32BufferedAttribute(vertices, 3, false));
