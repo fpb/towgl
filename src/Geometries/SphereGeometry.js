@@ -51,17 +51,11 @@ export class SphereGeometry extends BufferedGeometry {
         normals.push(0, 1, 0);
         uvs.push(0.5, 1);
 
-        console.log("top=" + top);
-
         let bottom = vertices.length / 3;
         // Add bottom of sphere
         vertices.push(0, -1, 0);
         normals.push(0, -1, 0);
         uvs.push(0.5, 0);
-
-        console.log("bottom=" + bottom);
-
-        console.log(vertices.length / 3);
 
         // Add the indices
         // Add mid section
