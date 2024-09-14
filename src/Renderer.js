@@ -165,33 +165,45 @@ export class Renderer {
             }
         }
 
-        // Need to go through each attribute and set it up
-        for (const name of Object.keys(geo.attributes)) {
-            const attr = geo.attributes[name];
+        if (geo.vao == null) {
+            geo.vao = gl.createVertexArray();
+            gl.bindVertexArray(geo.vao);
 
-            const index = gl.getAttribLocation(prog.program, name);
-            if (index != -1) {
+            // Need to go through each attribute and set it up
+            for (const name of Object.keys(geo.attributes)) {
+                const attr = geo.attributes[name];
 
-                if (!attr.buffer) {
-                    attr.buffer = gl.createBuffer();
-                    gl.bindBuffer(gl.ARRAY_BUFFER, attr.buffer);
-                    gl.bufferData(gl.ARRAY_BUFFER, attr.array, gl.STATIC_DRAW);
+                const index = gl.getAttribLocation(prog.program, name);
+                if (index != -1) {
+
+                    if (!attr.buffer) {
+                        attr.buffer = gl.createBuffer();
+                        gl.bindBuffer(gl.ARRAY_BUFFER, attr.buffer);
+                        gl.bufferData(gl.ARRAY_BUFFER, attr.array, gl.STATIC_DRAW);
+                    }
+                    else gl.bindBuffer(gl.ARRAY_BUFFER, attr.buffer);
+
+                    gl.vertexAttribPointer(index, attr.itemSize, gl.FLOAT, attr.normalized, 0, 0);
+                    gl.enableVertexAttribArray(index);
                 }
-                else gl.bindBuffer(gl.ARRAY_BUFFER, attr.buffer, gl.STATIC_DRAW);
+                else console.log("");
+            }
 
-                gl.vertexAttribPointer(index, attr.itemSize, gl.FLOAT, attr.normalized, 0, 0);
-                gl.enableVertexAttribArray(index);
+            gl.bindVertexArray(null);
+
+            if (!geo.indices.buffer) {
+                geo.indices.buffer = gl.createBuffer();
+                gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, geo.indices.buffer);
+                gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, geo.indices.array, gl.STATIC_DRAW);
             }
         }
 
-        if (!geo.indices.buffer) {
-            geo.indices.buffer = gl.createBuffer();
-            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, geo.indices.buffer);
-            gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, geo.indices.array, gl.STATIC_DRAW);
-        }
-        else gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, geo.indices.buffer);
+        gl.bindVertexArray(geo.vao);
 
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, geo.indices.buffer);
         gl.drawElements(gl.TRIANGLES, geo.indices.count, gl.UNSIGNED_SHORT, 0);
+
+        gl.bindVertexArray(null);
 
         for (name of Object.keys(geo.attributes)) {
             // Cleanup code
