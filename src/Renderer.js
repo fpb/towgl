@@ -153,9 +153,9 @@ export class Renderer {
         gl.useProgram(prog.program);
 
         // Set the camera matrices
-        gl.uniformMatrix4fv(prog.uniforms["projection"].location, false, projection.flattened);
-        gl.uniformMatrix4fv(prog.uniforms["view"].location, false, view.flattened);
-        gl.uniformMatrix4fv(prog.uniforms["model"].location, false, obj.localToWorld.flattened);
+        gl.uniformMatrix4fv(prog.uniforms["u_projection"].location, false, projection.flattened);
+        gl.uniformMatrix4fv(prog.uniforms["u_view"].location, false, view.flattened);
+        gl.uniformMatrix4fv(prog.uniforms["u_model"].location, false, obj.localToWorld.flattened);
 
         // Need to go through each uniform and set it up
         for (const uName of Object.keys(mat.uniforms)) {

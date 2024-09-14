@@ -12,7 +12,7 @@ export class NormalMaterial extends Material {
         super(NormalMaterialShader);
 
         this.addAttribute("normal", "vec3");
-        this.addVarying("fNormal", "vec3");
+        this.addVarying("normal", "vec3");
     }
 }
 

@@ -1,9 +1,9 @@
 export const name = 'basic_material';
 
 export const vertex = /* glsl */`
-    gl_Position = projection * view * model * vec4(position, 1.0);
+    gl_Position = u_projection * u_view * u_model * vec4(a_position, 1.0);
 `;
 
 export const fragment = /* glsl */`
-    gl_FragColor = color;
+    gl_FragColor = u_color;
 `;

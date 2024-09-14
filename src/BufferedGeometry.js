@@ -36,7 +36,7 @@ export class BufferedGeometry {
      * @returns this
      */
     setAttribute(name, attribute) {
-        this.#attributes[name] = attribute;
+        this.#attributes["a_" + name] = attribute;
         return this;
     }
 
