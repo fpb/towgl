@@ -5,5 +5,5 @@ export const vertex = /* glsl */`
 `;
 
 export const fragment = /* glsl */`
-    gl_FragColor = u_color;
+    color = u_color;
 `;

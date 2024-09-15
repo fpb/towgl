@@ -79,7 +79,7 @@ export class Material {
     get fragPre() {
         return this.#preamble("uniform", this.#uniforms) + "\n" +
             this.#preamble("in", this.#varyings) +
-            "out vec4 color;"
+            "out vec4 color;\n"
     }
 
     /**
@@ -87,9 +87,8 @@ export class Material {
      * followed by the main function of the shader.
      */
     get vertSource() {
-        let src = `#version 300 es
-    
-        `;
+        let src = "#version 300 es\n\n";
+
 
         src += this.vertPre;
         src += 'void main() {';
